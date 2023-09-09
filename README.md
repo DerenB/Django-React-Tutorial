@@ -1,5 +1,7 @@
 # Django-React-Tutorial
-Creating a demo project using Django and React following a tutorial
+
+- Creating a demo project using Django and React following a tutorial
+- [Video 1 of the Tutorial Series](https://www.youtube.com/watch?v=JD-age0BPVo&list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j)
 
 # 1.1: Installs
 
