@@ -1,6 +1,12 @@
 # Django-React-Tutorial
 Creating a demo project using Django and React following a tutorial
 
+# Code Needs
+
+- Python
+- npm
+- Node.js
+
 # VSCode Extensions
 
 - Python
@@ -10,3 +16,6 @@ Creating a demo project using Django and React following a tutorial
 
 # Install Python Packages
 
+- Open terminal in project folder
+- Install Djano
+    - CMD: `pip install django djangorestframework`
