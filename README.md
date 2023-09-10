@@ -111,3 +111,5 @@ urlpatterns = [
 - Hot Reload Compatible 
   - Whenever you save, the server will reload
   - Can change python files, save, and see changes
+ 
+# 2.1 
