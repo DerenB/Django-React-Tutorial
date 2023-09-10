@@ -132,22 +132,70 @@ import random
 # only contains the uppercase ascii characters
 # continues to generate random codes until it finds one not already in the database
 def generate_unique_code():
-    length = 6
-    while True:
-        code = ''.join(random.choices(string.ascii_uppercase, k=length))
-        if Room.objects.filter(code=code).count() == 0:
-            break
-
-    return code
+  length = 6
+  while True:
+    code = ''.join(random.choices(string.ascii_uppercase, k=length))
+    if Room.objects.filter(code=code).count() == 0:
+      break
+  return code
 
 # Create your models here.
 class Room(models.Model):
-    # Max length required for char field
-    # holds a bunch of characters
-    # Creating the constraints of the field
-    code = models.CharField(max_length=8, default="", unique=True)
-    host = models.CharField(max_length=50, unique=True)
-    guest_can_pause = models.BooleanField(null=False, default=False)
-    votes_to_skip = models.IntegerField(null=False, default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
+  # Max length required for char field
+  # holds a bunch of characters
+  # Creating the constraints of the field
+  code = models.CharField(max_length=8, default="", unique=True)
+  host = models.CharField(max_length=50, unique=True)
+  guest_can_pause = models.BooleanField(null=False, default=False)
+  votes_to_skip = models.IntegerField(null=False, default=1)
+  created_at = models.DateTimeField(auto_now_add=True)
+```
+
+# 2.2 Create API View
+
+- In the API project, create file: `serializers.py`
+  - this takes the model (room) with the python related code
+  - translate the python into a json response
+  - takes the keys, turns them into string, and assigns the value
+- Create a class for the serializer
+  - Should have fields that match the model
+- Code Block:
+```
+from rest_framework import serializers
+from .models import Room
+
+class RoomSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Room
+    fields = ('id', 'code', 'host', 'guest_can_pause', 'votes_to_skip', 'created_at')
+```
+
+# 2.3 Create API View
+
+- File: api > `views.py`
+- Lets us view a list of all the different rooms
+- Accesses the serializer class made in previous step
+- Code block:
+```
+from django.shortcuts import render
+from rest_framework import generics
+from .serializers import RoomSerializer
+from .models import Room
+
+# Create your views here.
+class RoomView(generics.CreateAPIView):
+  queryset = Room.objects.all()
+  serializer_class = RoomSerializer
+```
+
+# Set URL for Room View
+
+- File: api > `urls.py`
+```
+from django.urls import path
+from .views import RoomView
+
+urlpatterns = [
+  path("room", RoomView.as_view())
+]
 ```
