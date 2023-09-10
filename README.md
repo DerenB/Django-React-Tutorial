@@ -112,4 +112,42 @@ urlpatterns = [
   - Whenever you save, the server will reload
   - Can change python files, save, and see changes
  
-# 2.1 
+# 2.1 Create Database Model
+
+- Django Models:
+  - A model acts like a table
+  - Constraints on the field in the Django documentation
+  - Put most logic in the model. Fat model, thin view
+- Open Models file: api > `models.py`
+- Set `models.py` to codeblock:
+- **Have to make the migrations and apply them**
+  - Migrate CMD: `python manage.py makemigrations`
+  - Apply CMD: `python manage.py migrate`
+```
+from django.db import models
+import string
+import random
+
+# generates a random code that is K length
+# only contains the uppercase ascii characters
+# continues to generate random codes until it finds one not already in the database
+def generate_unique_code():
+    length = 6
+    while True:
+        code = ''.join(random.choices(string.ascii_uppercase, k=length))
+        if Room.objects.filter(code=code).count() == 0:
+            break
+
+    return code
+
+# Create your models here.
+class Room(models.Model):
+    # Max length required for char field
+    # holds a bunch of characters
+    # Creating the constraints of the field
+    code = models.CharField(max_length=8, default="", unique=True)
+    host = models.CharField(max_length=50, unique=True)
+    guest_can_pause = models.BooleanField(null=False, default=False)
+    votes_to_skip = models.IntegerField(null=False, default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+```
